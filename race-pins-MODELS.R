@@ -18,30 +18,30 @@ library( ergm )     # for the erg models
 # execute the build script.
 source( here( "race-pins-BUILD.R" ) )
 
-rm( list = ls()[ !(ls() %in% c( "get.along.norank.excluded.net", "alterdistance.racehom" ) ) ] )
+rm( list = ls()[ !(ls() %in% c( "get.along.norank.excluded.net", "egodistance.racehom", "alterdistance.racehom" ) ) ] )
 
 
 # ----
 # ERGM models
 
-# model without interaction term 
 final.1 <- ergm( 
   get.along.norank.excluded.net 
   ~ edges + mutual 
   + gwidegree( decay = 0.50, fixed = TRUE ) + gwodegree( decay = 0.25, fixed = TRUE )
   + twopath + gwesp( decay = 1.00, fixed = TRUE )
+  + edgecov( egodistance.racehom ) 
   + nodeifactor( "Race", base = 2 ) + nodeofactor( "Race", base = 2 ) + nodematch( "Race", diff=FALSE )
   + nodeicov( "Soc.Dist.R" ) + nodeocov( "Soc.Dist.R" ) + absdiff( "Soc.Dist.R", pow=1 )
-  + nodeifactor("race_comfort", base = 3) + nodeofactor("race_comfort", base = 3)
-  + nodematch("sameraceroom",diff=F) + nodeicov("sameraceroom") + nodeocov("sameraceroom")
-  + nodematch("pporf",diff=F) + nodeicov("pporf") + nodeocov("pporf")
-  + absdiff("Age", pow=1) + nodeicov("Age") + nodeocov("Age")
-  + absdiff("Time.In", pow=1) + nodeicov("Time.In") + nodeocov("Time.In")
-  + absdiff("Soc.Belng", pow=1) + nodeicov("Soc.Belng") + nodeocov("Soc.Belng")
-  + absdiff("DOU", pow=1) + nodeicov("DOU") + nodeocov("DOU")
-  + absdiff("Grade", pow=1) + nodeicov("Grade") + nodeocov("Grade")
-  + absdiff("powerinfluence.indeg.log", pow=1) + nodeicov("powerinfluence.indeg.log") + nodeocov("powerinfluence.indeg.log")
-  + nodematch("Religion",diff=FALSE) 
+#  + nodeifactor("race_comfort", base = 3) + nodeofactor("race_comfort", base = 3)
+#  + nodematch("sameraceroom",diff=F) + nodeicov("sameraceroom") + nodeocov("sameraceroom")
+#  + nodematch("pporf",diff=F) + nodeicov("pporf") + nodeocov("pporf")
+#  + absdiff("Age", pow=1) + nodeicov("Age") + nodeocov("Age")
+#  + absdiff("Time.In", pow=1) + nodeicov("Time.In") + nodeocov("Time.In")
+#  + absdiff("Soc.Belng", pow=1) + nodeicov("Soc.Belng") + nodeocov("Soc.Belng")
+#  + absdiff("DOU", pow=1) + nodeicov("DOU") + nodeocov("DOU")
+#  + absdiff("Grade", pow=1) + nodeicov("Grade") + nodeocov("Grade")
+#  + absdiff("powerinfluence.indeg.log", pow=1) + nodeicov("powerinfluence.indeg.log") + nodeocov("powerinfluence.indeg.log")
+#  + nodematch("Religion",diff=FALSE) 
   + nodematch("City",diff=FALSE),
   control = control.ergm( seed = 92915 )
 )
