@@ -1,2 +1,4 @@
 load("/Users/jyoung20/Dropbox (ASU)/GitHub_repos/race-pins/PINS_Wave_1_NETWORKS_RACEATTITUDES_ANALYSIS.RData")
 ls()
+load("/Users/jyoung20/Dropbox (ASU)/GitHub_repos/race-pins/PINS_Wave_1_NETWORKS_FOR_ANALYSIS.RData")
+ls()

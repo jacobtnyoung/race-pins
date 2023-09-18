@@ -17,10 +17,17 @@ library( network )  # for working with network data
 # ----
 # call the base datafile and merge in the variables
 
+# load the networks
 load( here( "pins-w1-race-network-data-raw.RData" ) )
 
 # merge additional racial attitude variables
 merge_vars <- read_excel( here( "pins-w1-race-data.xlsx" ) )
+
+# ----
+# add the logged indegree from the power/influence network
+
+load( here( "pins-w1-all-networks-data.RData" ) )
+get.along.norank.excluded.net %v% "powerinfluence.indeg.log" <- log( degree( powerinfluence.excluded.net, cmode = "indegree" ) + 1 )
 
 # ----
 # recode the comfort measure into a categorical variable

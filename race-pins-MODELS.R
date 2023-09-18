@@ -27,9 +27,11 @@ rm( list = ls()[ !(ls() %in% c( "get.along.norank.excluded.net", "alterdistance.
 # model without interaction term 
 final.1 <- ergm( 
   get.along.norank.excluded.net 
-  ~ nodematch("Race",diff=F)
-  + absdiff("Soc.Dist.R", pow=1) + nodeicov("Soc.Dist.R") + nodeocov("Soc.Dist.R")
-  + nodeifactor("Race", base = 2) + nodeofactor("Race", base = 2) 
+  ~ edges + mutual 
+  + gwidegree( decay = 0.50, fixed = TRUE ) + gwodegree( decay = 0.25, fixed = TRUE )
+  + twopath + gwesp( decay = 1.00, fixed = TRUE )
+  + nodeifactor( "Race", base = 2 ) + nodeofactor( "Race", base = 2 ) + nodematch( "Race", diff=FALSE )
+  + nodeicov( "Soc.Dist.R" ) + nodeocov( "Soc.Dist.R" ) + absdiff( "Soc.Dist.R", pow=1 )
   + nodeifactor("race_comfort", base = 3) + nodeofactor("race_comfort", base = 3)
   + nodematch("sameraceroom",diff=F) + nodeicov("sameraceroom") + nodeocov("sameraceroom")
   + nodematch("pporf",diff=F) + nodeicov("pporf") + nodeocov("pporf")
@@ -37,12 +39,19 @@ final.1 <- ergm(
   + absdiff("Time.In", pow=1) + nodeicov("Time.In") + nodeocov("Time.In")
   + absdiff("Soc.Belng", pow=1) + nodeicov("Soc.Belng") + nodeocov("Soc.Belng")
   + absdiff("DOU", pow=1) + nodeicov("DOU") + nodeocov("DOU")
-  + nodematch("Religion",diff=F) 
-  + nodematch("City",diff=F) 
-  + edges + mutual + intransitive + gwesp( decay = .25, fixed = TRUE ),
+  + absdiff("Grade", pow=1) + nodeicov("Grade") + nodeocov("Grade")
+  + absdiff("powerinfluence.indeg.log", pow=1) + nodeicov("powerinfluence.indeg.log") + nodeocov("powerinfluence.indeg.log")
+  + nodematch("Religion",diff=FALSE) 
+  + nodematch("City",diff=FALSE),
   control = control.ergm( seed = 92915 )
 )
 summary( final.1 )
+
+
+
+!!!need gof here
+
+update this one!!!
 
 # Alter Social Distance by Race Homophily; single racial homophily term (not differentiated by race)
 final.2 <- ergm( 
