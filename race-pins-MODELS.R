@@ -1,4 +1,4 @@
-# ============================================================================ #
+`# ============================================================================ #
 # RACE PINS 
 # models file: this file estimates the ergms in the race manuscript.
 
@@ -24,57 +24,66 @@ rm( list = ls()[ !(ls() %in% c( "get.along.norank.excluded.net", "egodistance.ra
 # ----
 # ERGM models
 
-final.1 <- ergm( 
+ego.model <- ergm( 
   get.along.norank.excluded.net 
-  ~ edges + mutual 
-  + gwidegree( decay = 0.50, fixed = TRUE ) + gwodegree( decay = 0.25, fixed = TRUE )
-  + twopath + gwesp( decay = 1.00, fixed = TRUE )
+  ~ nodeifactor( "Race", levels = c( 1, 3 ) )
+  + nodeicov( "Soc.Dist.R" ) + nodeocov( "Soc.Dist.R" ) + absdiff( "Soc.Dist.R" )
   + edgecov( egodistance.racehom ) 
-  + nodeifactor( "Race", base = 2 ) + nodeofactor( "Race", base = 2 ) + nodematch( "Race", diff=FALSE )
-  + nodeicov( "Soc.Dist.R" ) + nodeocov( "Soc.Dist.R" ) + absdiff( "Soc.Dist.R", pow=1 )
-#  + nodeifactor("race_comfort", base = 3) + nodeofactor("race_comfort", base = 3)
-#  + nodematch("sameraceroom",diff=F) + nodeicov("sameraceroom") + nodeocov("sameraceroom")
-#  + nodematch("pporf",diff=F) + nodeicov("pporf") + nodeocov("pporf")
-#  + absdiff("Age", pow=1) + nodeicov("Age") + nodeocov("Age")
-#  + absdiff("Time.In", pow=1) + nodeicov("Time.In") + nodeocov("Time.In")
-#  + absdiff("Soc.Belng", pow=1) + nodeicov("Soc.Belng") + nodeocov("Soc.Belng")
-#  + absdiff("DOU", pow=1) + nodeicov("DOU") + nodeocov("DOU")
-#  + absdiff("Grade", pow=1) + nodeicov("Grade") + nodeocov("Grade")
-#  + absdiff("powerinfluence.indeg.log", pow=1) + nodeicov("powerinfluence.indeg.log") + nodeocov("powerinfluence.indeg.log")
-#  + nodematch("Religion",diff=FALSE) 
-  + nodematch("City",diff=FALSE),
+  + nodeofactor( "Race",levels = c( 1, 3 ) ) + nodematch( "Race", diff=FALSE )
+  + nodeifactor( "race_comfort", levels = c( 1, 2) ) + nodeofactor( "race_comfort", levels = c( 1, 2) )
+  + nodematch( "pporf", diff=FALSE ) + nodeicov( "pporf" ) + nodeocov( "pporf" )
+  + absdiff( "Age" ) + nodeicov( "Age" ) + nodeocov( "Age" )
+  + absdiff( "Time.In" ) + nodeicov( "Time.In" ) + nodeocov( "Time.In" )
+  + absdiff( "Soc.Belng" ) + nodeicov( "Soc.Belng" ) + nodeocov( "Soc.Belng" )
+  + absdiff( "DOU" ) + nodeicov( "DOU" ) + nodeocov( "DOU" )
+  + absdiff( "Grade" ) + nodeicov( "Grade" ) + nodeocov( "Grade" )
+  + absdiff( "powerinfluence.indeg.log" ) + nodeicov( "powerinfluence.indeg.log" ) + nodeocov( "powerinfluence.indeg.log" )
+  + nodematch( "Religion", diff=FALSE ) 
+  + nodematch( "City", diff=FALSE )
+  + edges + mutual
+  + gwidegree( decay = 0.50, fixed = TRUE ) + gwodegree( decay = 0.25, fixed = TRUE )
+  + intransitive + gwesp( decay = 1.00, fixed = TRUE )
+  ,
   control = control.ergm( seed = 92915 )
 )
-summary( final.1 )
+summary( ego.model )
 
-
-
-!!!need gof here
-
-update this one!!!
-
-# Alter Social Distance by Race Homophily; single racial homophily term (not differentiated by race)
-final.2 <- ergm( 
+alter.model <- ergm( 
   get.along.norank.excluded.net 
-  ~ edgecov( alterdistance.racehom ) 
-  + nodematch("Race",diff=F)
-  + absdiff("Soc.Dist.R", pow=1) + nodeicov("Soc.Dist.R") + nodeocov("Soc.Dist.R")
-  + nodeifactor("Race", base = 2) + nodeofactor("Race", base = 2) 
-  + nodeifactor("race_comfort", base = 3) + nodeofactor("race_comfort", base = 3)
-  + nodematch("sameraceroom",diff=F) + nodeicov("sameraceroom") + nodeocov("sameraceroom")
-  + nodematch("pporf",diff=F) + nodeicov("pporf") + nodeocov("pporf")
-  + absdiff("Age", pow=1) + nodeicov("Age") + nodeocov("Age")
-  + absdiff("Time.In", pow=1) + nodeicov("Time.In") + nodeocov("Time.In")
-  + absdiff("Soc.Belng", pow=1) + nodeicov("Soc.Belng") + nodeocov("Soc.Belng")
-  + absdiff("DOU", pow=1) + nodeicov("DOU") + nodeocov("DOU")
-  + nodematch("Religion",diff=F) 
-  + nodematch("City",diff=F) 
-  + edges + mutual + intransitive + gwesp( decay = .25, fixed = TRUE ),
+  ~ nodeifactor( "Race", levels = c( 1, 3 ) )
+  + nodeicov( "Soc.Dist.R" ) + nodeocov( "Soc.Dist.R" ) + absdiff( "Soc.Dist.R" )
+  + edgecov( alterdistance.racehom ) 
+  + nodeofactor( "Race",levels = c( 1, 3 ) ) + nodematch( "Race", diff=FALSE )
+  + nodeifactor( "race_comfort", levels = c( 1, 2) ) + nodeofactor( "race_comfort", levels = c( 1, 2) )
+  + nodematch( "pporf", diff=FALSE ) + nodeicov( "pporf" ) + nodeocov( "pporf" )
+  + absdiff( "Age" ) + nodeicov( "Age" ) + nodeocov( "Age" )
+  + absdiff( "Time.In" ) + nodeicov( "Time.In" ) + nodeocov( "Time.In" )
+  + absdiff( "Soc.Belng" ) + nodeicov( "Soc.Belng" ) + nodeocov( "Soc.Belng" )
+  + absdiff( "DOU" ) + nodeicov( "DOU" ) + nodeocov( "DOU" )
+  + absdiff( "Grade" ) + nodeicov( "Grade" ) + nodeocov( "Grade" )
+  + absdiff( "powerinfluence.indeg.log" ) + nodeicov( "powerinfluence.indeg.log" ) + nodeocov( "powerinfluence.indeg.log" )
+  + nodematch( "Religion", diff=FALSE ) 
+  + nodematch( "City", diff=FALSE )
+  + edges + mutual
+  + gwidegree( decay = 0.50, fixed = TRUE ) + gwodegree( decay = 0.25, fixed = TRUE )
+  + intransitive + gwesp( decay = 1.00, fixed = TRUE )
+  ,
   control = control.ergm( seed = 92915 )
 )
-summary( final.2 )
+summary( alter.model )
 
 
+# ----
+# GOFs for estimated models
+
+!!!!
+
+take a look at the function and see if you can set the seed  
+  
+set.seed(54321) # The gof function uses random values
+flomodel.03.gof <- gof(flomodel.03)
+flomodel.03.gof
+plot(flomodel.03.gof)
 
 
 
