@@ -3,7 +3,7 @@
     "path": "~/Dropbox (ASU)/GitHub_repos/race-pins/.gitignore",
     "project_path": ".gitignore",
     "type": "gitignore",
-    "hash": "0",
+    "hash": "2465927580",
     "contents": "",
     "dirty": false,
     "created": 1695325609426.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "0,0",
+        "cursorPosition": "8,22",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1695325621,
+    "lastKnownWriteTime": 1695325731,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1695325621117,
+    "last_content_update": 1695325731279,
     "read_only": false,
     "read_only_alternatives": []
 }
