@@ -2,7 +2,7 @@
 
 <br>
 
-## Authors: [Marin R. Wenger](), [Jacob T.N. Young](https://jacobtnyoung.github.io/)
+## Authors: [Marin R. Wenger](), [Jacob T.N. Young](https://jacobtnyoung.github.io/), Corey Whichard
 
 ### ***Abstract***
 
